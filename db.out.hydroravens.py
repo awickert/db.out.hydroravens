@@ -81,6 +81,9 @@ import sqlite3
 
 import grass.script as gs
 
+if os.path.exists('/usr/share/proj/proj.db'):
+    os.environ['PROJ_DATA'] = '/usr/share/proj'
+
 
 CFS_TO_CMS = 0.0283168  # ft³/s → m³/s
 
