@@ -25,9 +25,10 @@ OUTDIR=$(dirname "$0")
 v.in.waterdata \
     sites=$GAUGE \
     output=discharge_${GAUGE} \
+    basins=cannon_basin \
     start_date=$START \
     end_date=$END \
-    -b
+    -b -t
 
 # ── 2. Set region to basin extent with padding for station search ─────────────
 g.region vector=cannon_basin res=1000 -a
@@ -65,7 +66,7 @@ done
 # ── 5. Export to hydroRaVENS format ──────────────────────────────────────────
 db.out.hydroravens \
     basin=cannon_basin \
-    discharge_table=discharge_${GAUGE} \
+    discharge_table=discharge_${GAUGE}_timeseries \
     output=${OUTDIR}/cannon_forcing.csv \
     config=${OUTDIR}/cannon_config.yml
 
