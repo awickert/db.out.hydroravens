@@ -125,7 +125,7 @@ def basin_centroid_lat(basin_map):
     cx = (float(info['east']) + float(info['west'])) / 2
     cy = (float(info['north']) + float(info['south'])) / 2
     out = gs.read_command('m.proj', coordinates='{},{}'.format(cx, cy),
-                          flags='d', quiet=True)
+                          flags='od', quiet=True)
     parts = out.strip().split('|')
     if len(parts) < 2:
         gs.fatal("m.proj failed to project basin centroid to lat/lon.")
