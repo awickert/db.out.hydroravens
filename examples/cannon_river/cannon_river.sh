@@ -56,7 +56,7 @@ for ELEM in PRCP TMAX TMIN; do
         sample=cannon_basin \
         start_date=$START \
         end_date=$END \
-        -w
+        -f
 done
 
 # cannon_basin_timeseries now holds PRCP, TMAX, TMIN for the basin.
