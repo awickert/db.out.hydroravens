@@ -28,7 +28,7 @@ v.in.waterdata \
     basins=cannon_basin \
     start_date=$START \
     end_date=$END \
-    -b -t
+    -t
 
 # ── 2. Set region to basin extent with padding for station search ─────────────
 g.region vector=cannon_basin res=1000 -a
