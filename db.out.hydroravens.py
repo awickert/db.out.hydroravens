@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-prepare_hydroravens - Prepare hydroRaVENS forcing CSV and config YAML from
-GRASS SQLite outputs (v.in.waterdata discharge + v.interp.timeseries basin mean).
+db.out.hydroravens - Export GRASS SQLite time series to hydroRaVENS forcing CSV
+and config YAML (reads v.in.waterdata discharge + v.interp.timeseries basin mean).
 """
 
 #%module
-#% description: Prepare hydroRaVENS forcing CSV and config YAML from GRASS SQLite outputs
+#% description: Export GRASS time series to hydroRaVENS forcing CSV and config YAML
 #% keyword: hydrology
 #% keyword: time series
 #%end
