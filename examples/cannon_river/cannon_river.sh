@@ -59,14 +59,14 @@ v.interp.timeseries \
     end_date=$END \
     -f
 
-# Temperature stations are sparse; npoints=2 is sufficient for IDW
-# (2 stations available region-wide for TMAX/TMIN throughout the modern record)
+# Temperature stations are sparse; min_stations=2 allows interpolation when
+# only 2 stations have data (vs. the default threshold of 4).
 for ELEM in TMAX TMIN; do
     v.interp.timeseries \
         input=ghcn_stations \
         element=$ELEM \
         method=idw \
-        npoints=2 \
+        min_stations=2 \
         sample=cannon_basin \
         start_date=$START \
         end_date=$END \
