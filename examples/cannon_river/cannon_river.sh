@@ -44,7 +44,6 @@ v.in.ghcn \
     elements=PRCP,TMAX,TMIN \
     start_date=$START \
     end_date=$END \
-    min_years=10 \
     min_stations=2
 
 # ── 4. Interpolate station data to basin-mean time series ─────────────────────
