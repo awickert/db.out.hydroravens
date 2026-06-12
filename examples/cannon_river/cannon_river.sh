@@ -14,6 +14,7 @@
 #   v.in.waterdata  v.in.ghcn  v.interp.timeseries  db.out.hydroravens
 
 set -e
+export GRASS_OVERWRITE=1
 
 GAUGE=05355200
 START=2023-01-01
