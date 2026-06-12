@@ -51,18 +51,10 @@ v.in.ghcn \
 # IDW interpolation; sample=cannon_basin averages over the basin polygon.
 # Runs three times — once per element — so that error tables track per-element
 # station counts and LOO RMSE.
-v.interp.timeseries \
-    input=ghcn_stations \
-    element=PRCP \
-    method=idw \
-    sample=cannon_basin \
-    start_date=$START \
-    end_date=$END \
-    -f
-
-# Temperature stations are sparse; min_stations=2 allows interpolation when
-# only 2 stations have data (vs. the default threshold of 4).
-for ELEM in TMAX TMIN; do
+# All three elements use min_stations=2: the long-record NWS coops provide
+# 2+ stations back to ~1893 for PRCP, TMAX, and TMIN. The default of 4
+# would skip ~50% of the early record where only 2-3 coops were active.
+for ELEM in PRCP TMAX TMIN; do
     v.interp.timeseries \
         input=ghcn_stations \
         element=$ELEM \
