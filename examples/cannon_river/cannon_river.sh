@@ -17,8 +17,8 @@ set -e
 export GRASS_OVERWRITE=1
 
 GAUGE=05355200
-START=2023-01-01
-END=2023-12-31
+START=1890-01-01
+END=2024-12-31
 OUTDIR=$(dirname "$0")
 
 # ── 1. Fetch discharge time series and upstream basin polygon ─────────────────
@@ -36,15 +36,16 @@ g.region vector=cannon_basin res=1000 -a
 
 # ── 3. Import GHCN stations and time series ───────────────────────────────────
 # PRCP + TMAX + TMIN are the three forcing variables hydroRaVENS needs.
-# NOTE: TMAX/TMIN stations are sparse in southern MN; min_stations=2 matches
-# the npoints=2 used for temperature interpolation below.  For the full-record
-# run, raise min_stations and let the bbox expand to capture more stations.
+# min_stations=4 causes the bbox to expand (~1.5°) until 4 TMAX/TMIN stations
+# with ≥10 years of record are found; this pulls in the long-record NWS coops
+# around the basin (Rochester, Faribault, etc.) that extend back to ~1893.
 v.in.ghcn \
     output=ghcn_stations \
     elements=PRCP,TMAX,TMIN \
     start_date=$START \
     end_date=$END \
-    min_stations=2
+    min_years=10 \
+    min_stations=4
 
 # ── 4. Interpolate station data to basin-mean time series ─────────────────────
 # IDW interpolation; sample=cannon_basin averages over the basin polygon.
