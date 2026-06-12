@@ -16,8 +16,8 @@
 set -e
 
 GAUGE=05355200
-START=1890-01-01
-END=2024-12-31
+START=2023-01-01
+END=2023-12-31
 OUTDIR=$(dirname "$0")
 
 # ── 1. Fetch discharge time series and upstream basin polygon ─────────────────
@@ -34,26 +34,39 @@ v.in.waterdata \
 g.region vector=cannon_basin res=1000 -a
 
 # ── 3. Import GHCN stations and time series ───────────────────────────────────
-# min_stations=20 ensures adequate spatial coverage; the bbox expands
-# automatically (0.5° per step) until 20 stations with ≥10 years are found.
 # PRCP + TMAX + TMIN are the three forcing variables hydroRaVENS needs.
+# NOTE: TMAX/TMIN stations are sparse in southern MN; min_stations=2 matches
+# the npoints=2 used for temperature interpolation below.  For the full-record
+# run, raise min_stations and let the bbox expand to capture more stations.
 v.in.ghcn \
     output=ghcn_stations \
     elements=PRCP,TMAX,TMIN \
     start_date=$START \
     end_date=$END \
     min_years=10 \
-    min_stations=20
+    min_stations=2
 
 # ── 4. Interpolate station data to basin-mean time series ─────────────────────
 # IDW interpolation; sample=cannon_basin averages over the basin polygon.
 # Runs three times — once per element — so that error tables track per-element
 # station counts and LOO RMSE.
-for ELEM in PRCP TMAX TMIN; do
+v.interp.timeseries \
+    input=ghcn_stations \
+    element=PRCP \
+    method=idw \
+    sample=cannon_basin \
+    start_date=$START \
+    end_date=$END \
+    -f
+
+# Temperature stations are sparse; npoints=2 is sufficient for IDW
+# (2 stations available region-wide for TMAX/TMIN throughout the modern record)
+for ELEM in TMAX TMIN; do
     v.interp.timeseries \
         input=ghcn_stations \
         element=$ELEM \
         method=idw \
+        npoints=2 \
         sample=cannon_basin \
         start_date=$START \
         end_date=$END \
