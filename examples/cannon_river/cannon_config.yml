@@ -1,0 +1,43 @@
+timeseries:
+  datafile: /home/awickert/dataanalysis/db.out.hydroravens/examples/cannon_river/cannon_forcing.csv
+
+initial_conditions:
+  water_reservoir_effective_depths__mm:
+    - 1.0       # shallow / overland-flow reservoir
+    - 100.0     # soil-zone reservoir
+    - 1000.0    # deep / karst reservoir
+  snowpack__mm_SWE: 0
+
+catchment:
+  drainage_basin_area__km2: 3474.9
+  evapotranspiration_method: ThorntwaiteChang2019
+  water_year_start_month: 10
+  baseflow_Q: 0.0
+
+general:
+  spin_up_cycles: 1
+
+reservoirs:
+  e_folding_residence_times__days:
+    - 16       # shallow (placeholder — calibrate)
+    - 200      # soil zone (placeholder — calibrate)
+    - 3650     # deep / karst (placeholder — calibrate)
+  exfiltration_fractions:
+    - 0.8      # shallow: fraction to stream vs. percolation to soil zone
+    - 0.1      # soil zone: fraction to stream vs. deep recharge
+    - 1.0      # deep: all to stream (mass conservation)
+  maximum_effective_depths__mm:
+    - .inf
+    - .inf
+    - .inf
+
+snowmelt:
+  PDD_melt_factor: 3.0   # mm SWE per positive degC per day (placeholder)
+  fgi_decay_coeff: 0.97
+  snow_insulation_k: 0.0
+
+modules:
+  snowpack: true
+  frozen_ground: true
+  rain_on_snow: true
+  direct_runoff: false
